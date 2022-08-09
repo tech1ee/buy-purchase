@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">buy-purchases</string>
+    <string name="purchases">Purchases</string>
+    <string name="total_">Total:</string>
+    <string name="error_purchase_title_is_empty">Purchase title is empty</string>
+    <string name="error_purchase_price_is_invalid">Purchase price is invalid</string>
+    <string name="error_purchase_currency_is_invalid">Purchase currency is invalid</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="title">Title</string>
+    <string name="price">Price</string>
+</resources>
