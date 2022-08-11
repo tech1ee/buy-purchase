@@ -1,4 +1,4 @@
-package dev.techie.buy_purchases.data
+package dev.techie.buy_purchases.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

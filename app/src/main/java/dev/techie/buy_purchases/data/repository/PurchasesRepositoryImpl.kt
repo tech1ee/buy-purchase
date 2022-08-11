@@ -1,6 +1,6 @@
 package dev.techie.buy_purchases.data.repository
 
-import dev.techie.buy_purchases.data.PurchasesDao
+import dev.techie.buy_purchases.data.database.PurchasesDao
 import dev.techie.buy_purchases.domain.PurchasesRepository
 import dev.techie.buy_purchases.entity.Purchase
 import kotlinx.coroutines.flow.Flow

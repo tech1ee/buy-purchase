@@ -1,4 +1,4 @@
-package dev.techie.buy_purchases.data
+package dev.techie.buy_purchases.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

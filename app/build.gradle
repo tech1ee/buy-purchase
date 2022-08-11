@@ -19,6 +19,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "API_KEY", API_KEY
     }
 
     buildTypes {
@@ -85,6 +87,11 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.3"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
     // Local unit tests
     testImplementation "androidx.test:core:1.4.0"
