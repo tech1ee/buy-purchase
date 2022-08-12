@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.techie.buy_purchases.domain.usecase.GetAllCurrencySymbols
 import dev.techie.buy_purchases.domain.usecase.GetPurchases
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PurchaseListViewModel @Inject constructor(
-    private val getAllCurrencySymbols: GetAllCurrencySymbols,
     private val getPurchases: GetPurchases
 ) : ViewModel() {
 
@@ -24,12 +22,7 @@ class PurchaseListViewModel @Inject constructor(
     private var getPurchasesJob: Job? = null
 
     init {
-        getAllCurrencySymbols()
         getAllPurchases()
-    }
-
-    private fun getAllCurrencySymbols() {
-        getAllCurrencySymbols().launchIn(viewModelScope)
     }
 
     private fun getAllPurchases() {

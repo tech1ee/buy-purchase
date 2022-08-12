@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity
 data class Settings(
     @PrimaryKey val id: Int = 1,
-    val mainCurrency: String? = null
+    val baseCurrencySymbol: String? = null
 )

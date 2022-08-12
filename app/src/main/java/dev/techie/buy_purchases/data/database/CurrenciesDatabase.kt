@@ -2,10 +2,11 @@ package dev.techie.buy_purchases.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.techie.buy_purchases.entity.CurrencySymbol
+import dev.techie.buy_purchases.data.database.entity.CurrencyRateDb
+import dev.techie.buy_purchases.data.database.entity.CurrencySymbolDb
 
 @Database(
-    entities = [CurrencySymbol::class],
+    entities = [CurrencySymbolDb::class, CurrencyRateDb::class],
     version = 1
 )
 abstract class CurrenciesDatabase: RoomDatabase() {

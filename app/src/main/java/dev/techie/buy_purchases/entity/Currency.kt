@@ -1,6 +1,6 @@
 package dev.techie.buy_purchases.entity
 
-data class CurrencySymbol(
-    val currency: String,
+data class Currency(
+    val name: String,
     val symbol: String
 )
