@@ -10,6 +10,7 @@ import dev.techie.buy_purchases.common.InvalidPurchaseException
 import dev.techie.buy_purchases.domain.usecase.GetPurchase
 import dev.techie.buy_purchases.domain.usecase.UpdatePurchase
 import dev.techie.buy_purchases.entity.Purchase
+import dev.techie.buy_purchases.entity.PurchasePrice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -39,7 +40,7 @@ class PurchaseEditorViewModel @Inject constructor(
                        currentPurchaseId = purchase.id
                        _purchaseState.value = purchaseState.value.copy(
                            title = purchase.title,
-                           price = purchase.price
+                           price = purchase.price.amount.toInt()
                        )
                    }
                }
@@ -62,9 +63,11 @@ class PurchaseEditorViewModel @Inject constructor(
                             Purchase(
                                 id = currentPurchaseId,
                                 title = purchaseState.value.title,
-                                price = purchaseState.value.price,
-                                categoryId = 0,
-                                currencyId = 0
+                                price = PurchasePrice(
+                                    currencySymbol = "USD",
+                                    amount = purchaseState.value.price.toDouble()
+                                ),
+                                categoryId = 0
                             )
                         )
                         _eventFlow.emit(PurchaseEditorEvent.PurchaseSaved)

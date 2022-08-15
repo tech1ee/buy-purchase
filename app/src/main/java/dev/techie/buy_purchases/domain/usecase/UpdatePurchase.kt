@@ -10,7 +10,7 @@ class UpdatePurchase(
 ) {
     suspend operator fun invoke(purchase: Purchase) {
         if (purchase.title.isEmpty()) throw InvalidPurchaseException(ExceptionMessage.PURCHASE_TITLE_IS_EMPTY)
-        if (purchase.price < 0) throw InvalidPurchaseException(ExceptionMessage.PURCHASE_PRICE_IS_INVALID)
+        if (purchase.price.amount < 0) throw InvalidPurchaseException(ExceptionMessage.PURCHASE_PRICE_IS_INVALID)
 
         purchaseRepository.updatePurchase(purchase)
     }

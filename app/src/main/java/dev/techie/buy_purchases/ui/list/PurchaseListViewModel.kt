@@ -31,7 +31,7 @@ class PurchaseListViewModel @Inject constructor(
             .onEach { purchases ->
                 _state.value = _state.value.copy(
                     purchases = purchases,
-                    totalPrice = purchases.sumOf { it.price }
+                    totalPrice = purchases.sumOf { it.price.amount }.toInt()
                 )
             }
             .launchIn(viewModelScope)

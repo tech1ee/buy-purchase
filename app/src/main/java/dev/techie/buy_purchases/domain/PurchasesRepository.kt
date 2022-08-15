@@ -13,6 +13,6 @@ interface PurchasesRepository {
 
     suspend fun updatePurchase(purchase: Purchase)
 
-    suspend fun deletePurchase(id: String): Boolean
+    suspend fun deletePurchase(id: Int): Boolean
 
 }

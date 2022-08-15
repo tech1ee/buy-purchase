@@ -1,18 +1,16 @@
 package dev.techie.buy_purchases.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import dev.techie.buy_purchases.data.database.entity.PurchaseDb
 
-@Entity
+
 data class Purchase(
+    val id: Int?,
     val title: String,
-    val price: Int,
-    val currencyId: Int,
+    val price: PurchasePrice,
     val categoryId: Int,
-    val isPurchased: Boolean = false,
-    @PrimaryKey val id: Int? = null
+    val isPurchased: Boolean = false
 ) {
     companion object {
-        const val PURCHASE_ID = "purchaseId"
+        const val PURCHASE_ID = PurchaseDb.PURCHASE_ID
     }
 }

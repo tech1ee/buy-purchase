@@ -4,18 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.techie.buy_purchases.entity.Purchase
+import dev.techie.buy_purchases.data.database.entity.PurchaseDb
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PurchasesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg purchases: Purchase)
+    suspend fun insert(vararg purchases: PurchaseDb)
 
-    @Query("SELECT * FROM purchase")
-    fun getAllPurchases(): Flow<List<Purchase>>
+    @Query("SELECT * FROM purchasedb")
+    fun getAllPurchases(): Flow<List<PurchaseDb>>
 
-    @Query("SELECT * FROM purchase WHERE id = :id")
-    suspend fun getPurchase(id: Int): Purchase?
+    @Query("SELECT * FROM purchasedb WHERE id = :id")
+    suspend fun getPurchase(id: Int): PurchaseDb?
 }
