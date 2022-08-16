@@ -1,10 +1,15 @@
 package dev.techie.buy_purchases.entity
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity
 data class Settings(
-    @PrimaryKey val id: Int = 1,
-    val baseCurrencySymbol: String? = null
-)
+    val baseCurrencySymbol: String? = null,
+    val selectedCurrencySymbols: List<CurrencySymbol>
+) {
+
+    fun getSymbols(): List<String> {
+        return selectedCurrencySymbols.map { it.symbol }
+    }
+
+    companion object {
+        const val DEFAULT_CURRENCY_SYMBOL = "USD"
+    }
+}

@@ -20,7 +20,7 @@ class CurrenciesRepositoryImpl(
         val symbolsFromDatabase = currenciesDao.getCurrencySymbols()
 
         return if (symbolsFromDatabase.isEmpty() || refresh) fetchCurrencySymbols()
-        else Success(symbolsFromDatabase.map { it.toEntity() })
+        else Result.success(symbolsFromDatabase.map { it.toEntity() })
     }
 
     private suspend fun fetchCurrencySymbols(): Result<List<CurrencySymbol>> {
@@ -36,20 +36,20 @@ class CurrenciesRepositoryImpl(
                     .map { CurrencySymbol(it.key, it.value) }
                     .let {
                         currenciesDao.insertCurrencySymbols(it.map { symbol -> symbol.toDbEntity() })
-                        Success(it)
+                        Result.success(it)
                     }
             } else {
-                Failure(UnsuccessfulResponseException())
+                Result.failure(UnsuccessfulResponseException())
             }
         } catch (e: Exception) {
-            Failure(e)
+            Result.failure(e)
         }
     }
 
     override suspend fun getCurrencyLatestRates(
-        refresh: Boolean,
         symbols: List<String>,
-        base: String
+        base: String,
+        refresh: Boolean
     ): Result<CurrencyRates> {
         val ratesFromDatabase = currenciesDao.getCurrencyRates()
 
@@ -57,7 +57,7 @@ class CurrenciesRepositoryImpl(
             ratesFromDatabase.isEmpty() ||
                     !ratesFromDatabase.all { it.base == base && it.date != today() } ||
                     refresh -> fetchCurrencyLatestRates(symbols, base)
-            else -> Success(
+            else -> Result.success(
                 CurrencyRates(
                     base = base,
                     date = ratesFromDatabase.first().date,
@@ -87,7 +87,7 @@ class CurrenciesRepositoryImpl(
                         timestamp = data.timestamp ?: now()
                     )
                 )
-                Success(
+                Result.success(
                     CurrencyRates(
                         base = base,
                         date = data.date ?: today(),
@@ -96,10 +96,10 @@ class CurrenciesRepositoryImpl(
                     )
                 )
             } else {
-                Failure(UnsuccessfulResponseException())
+                Result.failure(UnsuccessfulResponseException())
             }
         } catch (e: Exception) {
-            Failure(e)
+            Result.failure(e)
         }
     }
 

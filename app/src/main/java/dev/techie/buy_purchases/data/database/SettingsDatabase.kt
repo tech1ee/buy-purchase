@@ -2,10 +2,10 @@ package dev.techie.buy_purchases.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.techie.buy_purchases.entity.Settings
+import dev.techie.buy_purchases.data.database.entity.SettingsDb
 
 @Database(
-    entities = [Settings::class],
+    entities = [SettingsDb::class],
     version = 1
 )
 abstract class SettingsDatabase: RoomDatabase() {

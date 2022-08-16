@@ -13,6 +13,9 @@ interface CurrenciesDao {
     @Query("SELECT * FROM currencysymboldb")
     suspend fun getCurrencySymbols(): List<CurrencySymbolDb>
 
+    @Query("SELECT * FROM currencysymboldb WHERE isSelected == 1")
+    suspend fun getSelectedCurrencySymbols(): List<CurrencySymbolDb>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCurrencyRates(rates: List<CurrencyRateDb>)
 

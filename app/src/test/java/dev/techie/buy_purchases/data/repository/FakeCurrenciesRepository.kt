@@ -11,7 +11,7 @@ class FakeCurrenciesRepository(
 
 
     override suspend fun getCurrencySymbols(refresh: Boolean): Result<List<CurrencySymbol>> {
-        return Success(
+        return Result.success(
             listOf(
                 CurrencySymbol("USD", "US Dollar"),
                 CurrencySymbol("EUR", "Euro"),
@@ -52,10 +52,10 @@ class FakeCurrenciesRepository(
     }
 
     override suspend fun getCurrencyLatestRates(
-        refresh: Boolean,
         symbols: List<String>,
-        base: String
+        base: String,
+        refresh: Boolean
     ): Result<CurrencyRates> {
-        return Success(latestRates)
+        return Result.success(latestRates)
     }
 }

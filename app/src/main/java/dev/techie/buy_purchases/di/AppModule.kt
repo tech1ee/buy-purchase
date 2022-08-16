@@ -54,8 +54,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(db: SettingsDatabase): SettingsRepository {
-        return SettingsRepositoryImpl(db.settingsDao())
+    fun provideSettingsRepository(db: SettingsDatabase, currenciesDatabase: CurrenciesDatabase): SettingsRepository {
+        return SettingsRepositoryImpl(db.settingsDao(), currenciesDatabase.currenciesDao())
     }
 
     @Provides

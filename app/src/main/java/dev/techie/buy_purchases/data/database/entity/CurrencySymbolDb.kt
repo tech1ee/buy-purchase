@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class CurrencySymbolDb(
     val currency: String,
-    @PrimaryKey val symbol: String
+    @PrimaryKey val symbol: String,
+    val isSelected: Boolean = false
 )

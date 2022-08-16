@@ -60,7 +60,17 @@ class GetTotalPriceTest {
         val currencyRates = getCurrencyRates(base = baseCurrencySymbol)
 
         val settingsRepository =
-            FakeSettingsRepository(Settings(baseCurrencySymbol = baseCurrencySymbol))
+            FakeSettingsRepository(
+                Settings(
+                    baseCurrencySymbol = baseCurrencySymbol,
+                    selectedCurrencySymbols = listOf(
+                        CurrencySymbol("", "USD"),
+                        CurrencySymbol("", "CAD"),
+                        CurrencySymbol("", "GBP"),
+                        CurrencySymbol("", "EUR")
+                    )
+                )
+            )
         val currenciesRepository = FakeCurrenciesRepository(currencyRates)
         val purchasesRepository = FakePurchasesRepository()
         val getPurchases = GetPurchases(purchasesRepository)
@@ -74,9 +84,11 @@ class GetTotalPriceTest {
         runBlocking {
             purchases.forEach { purchasesRepository.addPurchase(it) }
 
-            val totalPrice = getTotalPrice().first()
+            getTotalPrice.invoke()
 
-            assertEquals(8.285, totalPrice.amount, 0.0)
+            val totalPrice: Double = getTotalPrice.totalPriceFlow.first().getOrNull()?.amount ?: 0.0
+
+            assertEquals(8.285, totalPrice, 0.0)
         }
     }
 
