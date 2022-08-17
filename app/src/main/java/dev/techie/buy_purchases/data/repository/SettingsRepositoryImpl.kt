@@ -12,6 +12,8 @@ class SettingsRepositoryImpl(
 ): SettingsRepository {
 
     override suspend fun getSettings(): Settings {
-        return settingsDao.getSettings().toEntity(currenciesDao.getSelectedCurrencySymbols())
+        return settingsDao.getSettings()
+            ?.toEntity(currenciesDao.getSelectedCurrencySymbols())
+            ?: Settings()
     }
 }

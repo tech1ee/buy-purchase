@@ -8,5 +8,5 @@ import dev.techie.buy_purchases.data.database.entity.SettingsDb
 interface SettingsDao {
 
     @Query("SELECT * FROM settingsdb")
-    suspend fun getSettings(): SettingsDb
+    suspend fun getSettings(): SettingsDb?
 }

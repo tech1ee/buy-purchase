@@ -30,7 +30,6 @@ fun PurchasesListScreen(
 ) {
 
     val state = viewModel.state.value
-//    val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -38,13 +37,11 @@ fun PurchasesListScreen(
             FloatingActionButton(
                 onClick = {
                     navController.navigate(Screen.PurchaseEditorScreen.route)
-                },
-//                backgroundColor = MaterialTheme.colorScheme.primary
+                }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
-        },
-//        scaffoldState = scaffoldState
+        }
     ) {
         Column(
             modifier = Modifier
@@ -61,7 +58,8 @@ fun PurchasesListScreen(
                     style = MaterialTheme.typography.headlineMedium
                 )
                 Text(
-                    text = stringResource(R.string.total_) + " " + state.totalPrice.toString(),
+                    text = stringResource(R.string.total_) +
+                            " ${state.totalPrice.amount.toInt()} ${state.totalPrice.currencySymbol}",
                     style = MaterialTheme.typography.headlineMedium
                 )
             }

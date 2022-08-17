@@ -1,8 +1,8 @@
 package dev.techie.buy_purchases.entity
 
 data class Settings(
-    val baseCurrencySymbol: String? = null,
-    val selectedCurrencySymbols: List<CurrencySymbol>
+    val baseCurrencySymbol: String = DEFAULT_CURRENCY_SYMBOL,
+    val selectedCurrencySymbols: List<CurrencySymbol> = emptyList()
 ) {
 
     fun getSymbols(): List<String> {

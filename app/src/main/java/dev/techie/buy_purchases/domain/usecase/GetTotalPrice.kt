@@ -11,16 +11,12 @@ class GetTotalPrice @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val currenciesRepository: CurrenciesRepository,
     private val getPurchases: GetPurchases
-
 ) {
 
-    private val _totalPriceFlow = MutableSharedFlow<Result<PurchasePrice>>()
-    val totalPriceFlow: SharedFlow<Result<PurchasePrice>> get() = _totalPriceFlow
-
-    suspend fun invoke() {
+    operator fun invoke() = flow {
         val settings = settingsRepository.getSettings()
 
-        val baseCurrencySymbol = settings.baseCurrencySymbol ?: Settings.DEFAULT_CURRENCY_SYMBOL
+        val baseCurrencySymbol = settings.baseCurrencySymbol
 
         val currencyRatesResult = currenciesRepository.getCurrencyLatestRates(
             base = baseCurrencySymbol,
@@ -37,13 +33,15 @@ class GetTotalPrice @Inject constructor(
                         currencyRatesResult.getOrNull()?.rates?.find {
                             it.symbol == purchase.price.currencySymbol
                         }?.rate ?: 0.0
-                    } else 0.0
+                    } else null
 
-                    totalAmount += amount * rate
+                    totalAmount += if (rate != null) {
+                        amount * rate
+                    } else amount
                 }
             }
 
-            _totalPriceFlow.emit(
+            emit(
                 Result.success(
                     PurchasePrice(
                         currencySymbol = baseCurrencySymbol,
@@ -52,10 +50,9 @@ class GetTotalPrice @Inject constructor(
                 )
             )
         } else {
-            _totalPriceFlow.emit(
+            emit(
                 Result.failure(currencyRatesResult.exceptionOrNull() ?: Exception())
             )
-            return
         }
     }
 }

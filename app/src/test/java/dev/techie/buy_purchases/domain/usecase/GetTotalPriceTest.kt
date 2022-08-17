@@ -25,7 +25,7 @@ class GetTotalPriceTest {
                 title = "Donut",
                 price = PurchasePrice(
                     currencySymbol = "USD",
-                    amount = 1.0, // * 1.11 = 1.11
+                    amount = 1.0, // = 1.0
                 ),
                 categoryId = 0
             ),
@@ -56,7 +56,7 @@ class GetTotalPriceTest {
                 ),
                 categoryId = 0
             )
-        ) // total: 8.285
+        ) // total: 8.175
         val currencyRates = getCurrencyRates(base = baseCurrencySymbol)
 
         val settingsRepository =
@@ -84,11 +84,9 @@ class GetTotalPriceTest {
         runBlocking {
             purchases.forEach { purchasesRepository.addPurchase(it) }
 
-            getTotalPrice.invoke()
+            val totalPrice: Double = getTotalPrice.invoke().first().getOrNull()?.amount ?: 0.0
 
-            val totalPrice: Double = getTotalPrice.totalPriceFlow.first().getOrNull()?.amount ?: 0.0
-
-            assertEquals(8.285, totalPrice, 0.0)
+            assertEquals(8.175, totalPrice, 0.0)
         }
     }
 
