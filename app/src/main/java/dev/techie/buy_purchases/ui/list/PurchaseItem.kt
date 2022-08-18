@@ -31,7 +31,7 @@ fun PurchaseItem(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = purchase.price.toString(),
+                text = "${purchase.price.amount.toInt()} ${purchase.price.currencySymbol}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,

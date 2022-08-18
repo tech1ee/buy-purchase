@@ -2,6 +2,7 @@ package dev.techie.buy_purchases.ui.list
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,9 +32,34 @@ fun PurchasesListScreen(
 ) {
 
     val state = viewModel.state.value
-    val scope = rememberCoroutineScope()
 
     Scaffold(
+        topBar = {
+            SmallTopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${stringResource(R.string.purchases)}: ${state.purchases.size}",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = stringResource(R.string.total_) +
+                                    " ${state.totalPrice.amount.toInt()} ${state.totalPrice.currencySymbol}",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .shadow(elevation = 8.dp)
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -42,27 +69,12 @@ fun PurchasesListScreen(
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         }
-    ) {
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(top = innerPadding.calculateTopPadding()),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.purchases),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                Text(
-                    text = stringResource(R.string.total_) +
-                            " ${state.totalPrice.amount.toInt()} ${state.totalPrice.currencySymbol}",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-            }
             AnimatedVisibility(
                 visible = true,
                 enter = fadeIn() + slideInVertically(),

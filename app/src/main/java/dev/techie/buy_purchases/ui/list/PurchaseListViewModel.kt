@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.techie.buy_purchases.domain.usecase.GetPurchases
 import dev.techie.buy_purchases.domain.usecase.GetTotalPrice
+import dev.techie.buy_purchases.entity.Purchase
 import dev.techie.buy_purchases.entity.PurchasePrice
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -37,19 +38,20 @@ class PurchaseListViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     purchases = purchases
                 )
-                getTotalPurchasePrice()
+                getTotalPurchasePrice(purchases)
             }
             .launchIn(viewModelScope)
     }
 
-    private fun getTotalPurchasePrice() {
+    private fun getTotalPurchasePrice(purchases: List<Purchase>) {
         getTotalPriceJob?.cancel()
-        getTotalPriceJob = getTotalPrice().onEach { result ->
-            if (result.isSuccess) _state.value = _state.value.copy(
-                totalPrice = result.getOrDefault(PurchasePrice())
-            )
+        getTotalPriceJob = viewModelScope.launch {
+            getTotalPrice.calculate(purchases).let { result ->
+                if (result.isSuccess) _state.value = _state.value.copy(
+                    totalPrice = result.getOrDefault(PurchasePrice())
+                )
+            }
         }
-            .launchIn(viewModelScope)
     }
 
     override fun onCleared() {

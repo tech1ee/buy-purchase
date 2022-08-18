@@ -73,18 +73,16 @@ class GetTotalPriceTest {
             )
         val currenciesRepository = FakeCurrenciesRepository(currencyRates)
         val purchasesRepository = FakePurchasesRepository()
-        val getPurchases = GetPurchases(purchasesRepository)
 
         val getTotalPrice = GetTotalPrice(
             settingsRepository = settingsRepository,
             currenciesRepository = currenciesRepository,
-            getPurchases = getPurchases
         )
 
         runBlocking {
             purchases.forEach { purchasesRepository.addPurchase(it) }
 
-            val totalPrice: Double = getTotalPrice.invoke().first().getOrNull()?.amount ?: 0.0
+            val totalPrice: Double = getTotalPrice.calculate(purchases).getOrNull()?.amount ?: 0.0
 
             assertEquals(8.175, totalPrice, 0.0)
         }
