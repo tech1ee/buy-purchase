@@ -77,7 +77,10 @@ fun PurchasesListScreen(
                     navController.navigate(Screen.PurchaseEditorScreen.route)
                 }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = ContentDescription.ADD
+                )
             }
         }
     ) { innerPadding ->
@@ -100,14 +103,18 @@ fun PurchasesListScreen(
                 items(state.purchases) { purchase ->
                     PurchaseItem(
                         purchase = purchase,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                navController.navigate(
-                                    Screen.PurchaseEditorScreen.route +
-                                            "?purchaseId=${purchase.id}"
-                                )
-                            }
+                        onEditClick = {
+                            navController.navigate(
+                                Screen.PurchaseEditorScreen.route +
+                                        "?purchaseId=${purchase.id}"
+                            )
+                        },
+                        onDeleteClick = {
+                            viewModel.delete(purchase)
+                        },
+                        onDoneClick = {
+                            viewModel.setPurchased(purchase)
+                        }
                     )
                 }
             }
