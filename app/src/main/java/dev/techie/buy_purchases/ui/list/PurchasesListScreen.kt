@@ -98,80 +98,16 @@ fun PurchasesListScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(state.purchases) { purchase ->
-                    val dismissState = rememberDismissState(
-                        confirmStateChange = {
-                            when (it) {
-                                DismissValue.DismissedToStart -> viewModel.delete(purchase)
-                                DismissValue.DismissedToEnd -> viewModel.setPurchased(purchase)
-                                else -> Unit
-                            }
-                            true
-                        }
-                    )
-
-                    SwipeToDismiss(
-                        state = dismissState,
-                        background = {
-                            val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
-
-                            val color by animateColorAsState(
-                                targetValue = when (direction) {
-                                    DismissDirection.EndToStart -> Color.Red
-                                    DismissDirection.StartToEnd -> Color.Green
-                                }
-                            )
-
-                            val icon = when (direction) {
-                                DismissDirection.EndToStart -> Icons.Default.Delete
-                                DismissDirection.StartToEnd -> Icons.Default.Done
-                            }
-
-                            val scale by animateFloatAsState(
-                                targetValue = when (direction) {
-                                    DismissDirection.EndToStart -> 0.8f
-                                    DismissDirection.StartToEnd -> 1.2f
-                                }
-                            )
-
-                            val alignment = when (direction) {
-                                DismissDirection.EndToStart -> Alignment.CenterEnd
-                                DismissDirection.StartToEnd -> Alignment.CenterStart
-                            }
-
-                            val contentDescription = when (direction) {
-                                DismissDirection.EndToStart -> ContentDescription.DELETE
-                                DismissDirection.StartToEnd -> ContentDescription.DONE
-                            }
-
-                            Box(modifier = Modifier.fillMaxSize()
-                                .background(color)
-                                .padding(16.dp),
-                                contentAlignment = alignment
-                            ) {
-                                Icon(
-                                    imageVector = icon,
-                                    modifier = Modifier.scale(scale),
-                                    contentDescription = contentDescription
+                    PurchaseItem(
+                        purchase = purchase,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    Screen.PurchaseEditorScreen.route +
+                                            "?purchaseId=${purchase.id}"
                                 )
                             }
-                        },
-                        directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
-                        dismissContent = {
-                            PurchaseItem(
-                                purchase = purchase,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate(
-                                            Screen.PurchaseEditorScreen.route +
-                                                    "?purchaseId=${purchase.id}"
-                                        )
-                                    }
-                            )
-                        },
-//                        dismissThresholds = { direction ->
-//                            FractionalThreshold(if (direction == DismissDirection.EndToStart) 0.1f else 0.05f)
-//                        }
                     )
                 }
             }
