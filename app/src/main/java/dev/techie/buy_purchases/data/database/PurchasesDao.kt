@@ -18,4 +18,7 @@ interface PurchasesDao {
 
     @Query("SELECT * FROM purchasedb WHERE id = :id")
     suspend fun getPurchase(id: Int): PurchaseDb?
+
+    @Query("DELETE FROM purchasedb WHERE id = :id")
+    suspend fun delete(id: Int)
 }

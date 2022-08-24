@@ -28,8 +28,8 @@ class PurchasesRepositoryImpl(
         purchasesDao.insert(purchase.toDbEntity())
     }
 
-    override suspend fun deletePurchase(id: Int): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun deletePurchase(id: Int) {
+        purchasesDao.delete(id)
     }
 
 }

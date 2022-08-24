@@ -6,10 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dev.techie.buy_purchases.domain.CurrenciesRepository
 import dev.techie.buy_purchases.domain.PurchasesRepository
-import dev.techie.buy_purchases.domain.usecase.GetAllCurrencySymbols
-import dev.techie.buy_purchases.domain.usecase.GetPurchase
-import dev.techie.buy_purchases.domain.usecase.GetPurchases
-import dev.techie.buy_purchases.domain.usecase.UpdatePurchase
+import dev.techie.buy_purchases.domain.usecase.*
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -23,6 +20,11 @@ object DomainModule {
     @Provides
     fun provideGetPurchaseUseCase(repository: PurchasesRepository): GetPurchase {
         return GetPurchase(repository)
+    }
+
+    @Provides
+    fun provideDeletePurchaseUseCase(repository: PurchasesRepository): DeletePurchase {
+        return DeletePurchase(repository)
     }
 
     @Provides
