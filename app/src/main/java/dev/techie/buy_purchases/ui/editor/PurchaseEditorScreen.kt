@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -101,13 +102,17 @@ fun PurchaseEditorScreen(
             ) {
                 OutlinedTextField(
                     value = purchaseState.title,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
                     onValueChange = {
                         viewModel.onAction(PurchaseEditorAction.TitleChanged(it))
                     },
                     label = { Text(stringResource(R.string.title)) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(vertical = 8.dp),
                 )
                 OutlinedTextField(
                     value = if (purchaseState.price <= 0) "" else purchaseState.price.toString(),
@@ -120,7 +125,7 @@ fun PurchaseEditorScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(vertical = 8.dp)
                 )
             }
         }
