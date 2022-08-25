@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.techie.buy_purchases.entity.Purchase
@@ -28,20 +29,24 @@ fun PurchaseItem(
     onDoneClick: (purchase: Purchase) -> Unit,
     onDeleteClick: (purchase: Purchase) -> Unit,
 ) {
-    Card(
+    Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-            .animateContentSize(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         var isMenuVisible by remember { mutableStateOf(false) }
-        Box(
+        Card(
             modifier = Modifier
-                .fillMaxSize()
-                .clickable { isMenuVisible = !isMenuVisible }
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
+                .animateContentSize()
+                .clip(RoundedCornerShape(16.dp))
+                .clickable { isMenuVisible = !isMenuVisible },
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 20.dp,
+                pressedElevation = 10.dp
+            ),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier

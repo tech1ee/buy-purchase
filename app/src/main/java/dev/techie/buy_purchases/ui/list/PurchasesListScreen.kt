@@ -89,14 +89,6 @@ fun PurchasesListScreen(
                 .fillMaxSize()
                 .padding(top = innerPadding.calculateTopPadding()),
         ) {
-            AnimatedVisibility(
-                visible = true,
-                enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically(),
-            ) {
-                //TODO: Add the order Section here
-            }
-            Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
